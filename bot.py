@@ -1,13 +1,13 @@
 import os
 import asyncio
-from pyrogram import Client
+from pyrogram import Client, idle
 
-# Render ki private settings se data uthane ke liye
+# Render settings se data uthana
 api_id = int(os.environ.get("API_ID"))
 api_hash = os.environ.get("API_HASH")
 string_session = os.environ.get("STRING_SESSION")
 
-async def main():
+async def start_bot():
     app = Client(
         "suraj_userbot",
         session_string=string_session,
@@ -15,16 +15,15 @@ async def main():
         api_hash=api_hash
     )
     
-    async with app:
-        print("Tera Userbot Securely Chalu Ho Gaya Hai! 🚀")
-        from pyrogram.methods.utilities.idle import idle
-        await idle()
+    await app.start()
+    print("Bhai, Tera Userbot 24/7 Chalu Ho Gaya Hai! 🚀")
+    await idle()
+    await app.stop()
 
 if __name__ == "__main__":
-    # Naya tarika jo 'Event Loop' error ko thik karega
+    # Naye Python versions ke liye sabse sahi tarika
     try:
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(main())
-    except RuntimeError:
-        asyncio.run(main())
+        asyncio.run(start_bot())
+    except (KeyboardInterrupt, SystemExit):
+        pass
         
