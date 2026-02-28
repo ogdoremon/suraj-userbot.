@@ -2,7 +2,7 @@ import os
 import asyncio
 from pyrogram import Client
 
-# Ab ye details GitHub se nahi, Render ki settings se aayengi
+# Render ki private settings se data uthane ke liye
 api_id = int(os.environ.get("API_ID"))
 api_hash = os.environ.get("API_HASH")
 string_session = os.environ.get("STRING_SESSION")
@@ -21,6 +21,10 @@ async def main():
         await idle()
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
-    
+    # Naya tarika jo 'Event Loop' error ko thik karega
+    try:
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(main())
+    except RuntimeError:
+        asyncio.run(main())
+        
